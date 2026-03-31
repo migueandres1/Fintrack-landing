@@ -1,7 +1,7 @@
 import { Router }          from 'express';
 import Stripe               from 'stripe';
 import { body, validationResult } from 'express-validator';
-import { checkoutLimiter }  from '../index.js';
+import { checkoutLimiter }  from '../middleware/limiters.js';
 
 const router = Router();
 
