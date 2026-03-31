@@ -1,348 +1,604 @@
 import {
-  TrendingUp, ArrowRight, CheckCircle2,
-  AlertCircle, HelpCircle, TrendingDown,
-  BarChart2, PiggyBank, Wallet, Receipt,
-  ChevronRight,
+  ArrowRight, CheckCircle2, Check, X, Minus,
+  BarChart2, Wallet, CreditCard, Target,
+  TrendingUp, Receipt, Send, ChevronRight,
 } from 'lucide-react';
 import PricingSection from './PricingSection.jsx';
 
-const APP_URL = import.meta.env.VITE_APP_URL ?? 'https://app.fintrack.com';
+const APP_URL = import.meta.env.VITE_APP_URL ?? 'https://app.moniflow.com';
 
+// ── MoniFlow M Logo ──────────────────────────────────────────────────────────
+function MFLogo({ size = 36, color = '#f0f5f3' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 40 44" fill="none" aria-label="MoniFlow">
+      <rect x="2"    y="2"  width="6" height="27" fill={color} />
+      <polygon points="2,2 8,2 20,19 14,19"    fill={color} />
+      <polygon points="20,19 26,19 38,2 32,2"  fill={color} />
+      <rect x="32"   y="2"  width="6" height="27" fill={color} />
+      <rect x="3"    y="32" width="5" height="4" rx="1" fill="#00b894" />
+      <rect x="17.5" y="32" width="5" height="4" rx="1" fill="#00b894" />
+      <rect x="32"   y="32" width="5" height="4" rx="1" fill="#00b894" />
+    </svg>
+  );
+}
+
+// ── Data ─────────────────────────────────────────────────────────────────────
 const PAINS = [
   {
-    icon:  HelpCircle,
-    color: 'text-rose-400',
-    bg:    'bg-rose-500/10 border-rose-500/15',
-    title: '¿A dónde se fue mi dinero?',
-    desc:  'El sueldo entra, los días pasan, y de repente la cuenta está casi en cero. Sabes que gastaste, pero no recuerdas en qué.',
+    emoji: '🤔',
+    title: '¿A dónde se fue el sueldo?',
+    desc:  'El dinero entra, el mes pasa, y la cuenta está casi en cero. Sabés que gastaste, pero no recordás en qué.',
   },
   {
-    icon:  TrendingDown,
-    color: 'text-amber-400',
-    bg:    'bg-amber-500/10 border-amber-500/15',
-    title: 'Quiero ahorrar, pero nunca puedo',
-    desc:  'Cada mes te dices "este mes sí ahorro". Cada mes pasa algo. Al final del año, el saldo de ahorros sigue en cero.',
+    emoji: '😰',
+    title: 'Solo pago el mínimo de la tarjeta',
+    desc:  'Porque no sabés cuánto debés en total ni cuánto te cuesta en intereses cada mes que dejás pasar.',
   },
   {
-    icon:  AlertCircle,
-    color: 'text-orange-400',
-    bg:    'bg-orange-500/10 border-orange-500/15',
-    title: 'Las deudas se sienten eternas',
-    desc:  'Pagas cuotas todos los meses pero no ves que el saldo baje. No sabes cuándo terminas, ni cuánto debes en total.',
+    emoji: '😵',
+    title: 'Mi Excel tiene 40 pestañas',
+    desc:  'Empezaste ordenado, pero se fue complicando. Al final lo abandonás y volvés a adivinar.',
   },
 ];
 
-const SOLUTIONS = [
+const FEATURES = [
   {
     icon:  BarChart2,
-    color: 'text-indigo-400',
-    bg:    'bg-indigo-500/10',
-    pain:  'Para el "¿a dónde se fue?"',
-    title: 'Presupuesto con visibilidad real',
-    desc:  'Cada peso tiene un nombre. Ve exactamente cuánto llevas gastado por categoría vs. lo que planeaste gastar.',
+    title: 'Control de gastos',
+    desc:  'Registrá en efectivo o tarjeta en segundos. Categorías automáticas con IA. Ve cuánto llevás gastado vs. lo planeado.',
   },
   {
-    icon:  PiggyBank,
-    color: 'text-emerald-400',
-    bg:    'bg-emerald-500/10',
-    pain:  'Para el "nunca puedo ahorrar"',
-    title: 'Metas que te obligan a avanzar',
-    desc:  'Define cuánto necesitas, para cuándo, y FinTrack te dice cuánto aportar cada mes. Sin adivinar.',
+    icon:  CreditCard,
+    title: 'Tarjetas de crédito',
+    desc:  'Fecha de corte, saldo real, intereses estimados. Sabe qué pasa si solo pagás el mínimo vs. el total.',
   },
   {
     icon:  Wallet,
-    color: 'text-sky-400',
-    bg:    'bg-sky-500/10',
-    pain:  'Para las deudas eternas',
-    title: 'Control total de lo que debes',
-    desc:  'Registra cada préstamo y ve su saldo real bajando mes a mes. Saber cuándo terminas cambia todo.',
+    title: 'Préstamos y deudas',
+    desc:  'Tabla de amortización completa. Cuánto va a capital y cuánto a intereses. Estrategias snowball y avalanche.',
+  },
+  {
+    icon:  Target,
+    title: 'Metas de ahorro',
+    desc:  'Definí cuánto necesitás y para cuándo. La IA calcula cuánto aportar cada mes según tus ingresos reales.',
+  },
+  {
+    icon:  TrendingUp,
+    title: 'Flujo de caja',
+    desc:  'Proyección día a día de tu saldo futuro. Ve los problemas antes de que pasen, no después.',
   },
   {
     icon:  Receipt,
-    color: 'text-violet-400',
-    bg:    'bg-violet-500/10',
-    pain:  'Para el registro que nunca haces',
-    title: 'Foto al ticket, listo',
-    desc:  'Nuestra IA lee el recibo y registra el gasto por ti. Sin excusas para no llevar el control.',
+    title: 'Escaneo de recibos con IA',
+    desc:  'Fotografiá el ticket y la IA registra el gasto por vos. Sin tipear. Sin excusas.',
   },
 ];
 
 const STEPS = [
   {
-    num:   '1',
-    title: 'Creá tu cuenta gratis',
-    desc:  'Solo necesitás un correo. Sin datos bancarios, sin tarjeta.',
+    n:     '01',
+    title: 'Creá tu cuenta',
+    desc:  'Solo tu correo. Sin datos bancarios. Sin tarjeta. Listo en 30 segundos.',
   },
   {
-    num:   '2',
+    n:     '02',
     title: 'Contale de qué va tu vida financiera',
     desc:  'Agregá tus cuentas, tarjetas y deudas. El onboarding te guía en menos de 3 minutos.',
   },
   {
-    num:   '3',
-    title: 'Empezá a registrar y presupuestar',
-    desc:  'Fotografiá un recibo, armá tu presupuesto del mes, definí una meta de ahorro. Desde el primer día.',
+    n:     '03',
+    title: 'Tomá el control desde hoy',
+    desc:  'Fotografiá un recibo, armá tu presupuesto del mes, definí tu primera meta de ahorro.',
   },
 ];
 
+const TESTIMONIALS = [
+  {
+    quote:    'Por primera vez en 10 años de trabajo sé exactamente cuánto debo, en qué gasto y cuándo termino de pagar mi carro.',
+    name:     'Sofía R.',
+    location: 'Ciudad de Guatemala',
+    initials: 'SR',
+  },
+  {
+    quote:    'Recibo remesas de mi hermano en Houston y nunca había podido planificar bien. Ahora tengo todo consolidado: gastos, deudas y lo que ahorro cada mes.',
+    name:     'Carlos M.',
+    location: 'San Pedro Sula, Honduras',
+    initials: 'CM',
+  },
+  {
+    quote:    'Soy freelancer y cobro en dólares. MoniFlow es lo único que me funciona para manejar mis cuentas en colones y dólares al mismo tiempo.',
+    name:     'Valeria C.',
+    location: 'San José, Costa Rica',
+    initials: 'VC',
+  },
+];
+
+const COMPARISON = [
+  { feature: 'Español completo',              mf: 'yes', wallet: 'yes',  pocket: 'no',   simplifi: 'no'  },
+  { feature: 'Módulo deudas en iOS y Web',    mf: 'yes', wallet: 'no',   pocket: 'part', simplifi: 'no'  },
+  { feature: 'Remesas como categoría nativa', mf: 'yes', wallet: 'no',   pocket: 'no',   simplifi: 'no'  },
+  { feature: 'Bancos centroamericanos',       mf: 'yes', wallet: 'part', pocket: 'no',   simplifi: 'no'  },
+  { feature: 'Score financiero personal',     mf: 'yes', wallet: 'no',   pocket: 'no',   simplifi: 'no'  },
+  { feature: 'Precio accesible (USD)',        mf: 'yes', wallet: 'part', pocket: 'no',   simplifi: 'no'  },
+];
+
+function CompCell({ val }) {
+  if (val === 'yes')  return <Check size={16} className="mx-auto text-[#00b894]" />;
+  if (val === 'no')   return <X     size={16} className="mx-auto text-[#2e5c3e]" />;
+  if (val === 'part') return <Minus size={16} className="mx-auto text-[#f0a500]" />;
+  return null;
+}
+
+// ── Component ────────────────────────────────────────────────────────────────
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-[#030712] text-white overflow-x-hidden">
+    <div className="font-sans overflow-x-hidden">
 
-      {/* ── Navbar ──────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#030712]/80 backdrop-blur-md">
+      {/* ── Navbar ────────────────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-50 bg-[#0b1712]/90 backdrop-blur-md border-b border-[#1e3d2a]/60">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center">
-              <TrendingUp size={16} className="text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight">FinTrack</span>
-          </div>
-          <nav className="flex items-center gap-2">
-            <a
-              href={`${APP_URL}/login`}
-              className="px-4 py-2 text-sm text-white/60 hover:text-white transition-colors rounded-lg"
-            >
+          <a href="/" className="flex items-center gap-3">
+            <MFLogo size={30} />
+            <span className="font-sans font-semibold text-base text-[#f0f5f3]" style={{ letterSpacing: '-0.01em' }}>
+              MoniFlow
+            </span>
+          </a>
+
+          <nav className="hidden md:flex items-center gap-6">
+            {[['Funciones', '#funciones'], ['Precios', '#precios']].map(([label, href]) => (
+              <a key={label} href={href}
+                className="text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors">
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <a href={`${APP_URL}/login`}
+              className="hidden sm:block px-4 py-2 text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors rounded-lg">
               Iniciar sesión
             </a>
-            <a
-              href={`${APP_URL}/register`}
-              className="px-4 py-2 text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 rounded-lg transition-colors"
-            >
-              Empezar gratis
+            <a href={`${APP_URL}/register`}
+              className="px-4 py-2 text-sm font-semibold bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] rounded-lg transition-colors shadow-caribe">
+              Empieza gratis
             </a>
-          </nav>
+          </div>
         </div>
       </header>
 
-      {/* ── Hero ────────────────────────────────────────────────────────── */}
-      <section className="relative pt-24 pb-20 px-6 text-center">
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden>
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-rose-600/10 rounded-full blur-[120px]" />
-          <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px]" />
+      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      <section className="bg-[#0b1712] min-h-[calc(100vh-64px)] flex flex-col justify-center relative overflow-hidden">
+        {/* Subtle grid texture */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.15]"
+          style={{
+            backgroundImage: 'linear-gradient(rgba(46,92,62,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46,92,62,0.4) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }}
+        />
+
+        <div className="max-w-6xl mx-auto px-6 py-20 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-12 items-center">
+
+            {/* Left: content */}
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#152a1e] border border-[#2e5c3e] text-[#00b894] text-xs font-medium mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00b894] animate-pulse" />
+                Disponible en Guatemala, Honduras, El Salvador y más
+              </span>
+
+              <h1 className="font-display font-light text-[#f0f5f3] leading-[1.05] mb-6"
+                style={{ fontSize: 'clamp(42px, 5.5vw, 68px)', letterSpacing: '-0.02em' }}>
+                Tu dinero,<br />
+                <span className="font-semibold">bajo control.</span>
+              </h1>
+
+              <p className="font-sans text-[#5a9070] text-lg leading-relaxed mb-3 max-w-lg">
+                La app de finanzas personales para Centroamérica y el Caribe.
+              </p>
+              <p className="font-sans text-[#2e5c3e] text-base leading-relaxed mb-10 max-w-lg">
+                Gastos, tarjetas, deudas y metas — en un solo lugar, en tu idioma.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 mb-5">
+                <a href={`${APP_URL}/register`}
+                  className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] font-semibold rounded-lg transition-all shadow-caribe hover:-translate-y-0.5 text-sm">
+                  Empieza gratis
+                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+                </a>
+                <a href="#como-funciona"
+                  className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-[#2e5c3e] text-[#5a9070] hover:text-[#f0f5f3] hover:border-[#5a9070] rounded-lg transition-all text-sm">
+                  Ver cómo funciona
+                </a>
+              </div>
+
+              <p className="text-xs text-[#2e5c3e]">
+                Sin tarjeta de crédito · Cancela cuando quieras
+              </p>
+            </div>
+
+            {/* Right: App mockup */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative w-full max-w-xs">
+                <div className="absolute -inset-4 bg-[#00b894]/8 rounded-3xl blur-2xl pointer-events-none" />
+                <div className="relative bg-[#152a1e] border border-[#1e3d2a] rounded-2xl p-5 shadow-2xl"
+                  style={{ transform: 'perspective(1200px) rotateY(-5deg) rotateX(2deg)' }}>
+
+                  <div className="flex items-center justify-between mb-4">
+                    <div>
+                      <p className="text-[#5a9070] text-[11px] font-medium">Buenos días, Sofía</p>
+                      <p className="font-mono text-[#f0f5f3] text-xl font-medium mt-0.5">Q 8,420.00</p>
+                      <p className="text-[#00b894] text-[11px] mt-0.5">↑ +Q 250 vs. mes pasado</p>
+                    </div>
+                    <div className="w-9 h-9 rounded-xl bg-[#0b1712] flex items-center justify-center border border-[#1e3d2a]">
+                      <MFLogo size={18} />
+                    </div>
+                  </div>
+
+                  {/* Mini bar chart */}
+                  <div className="flex gap-1 items-end h-12 mb-4">
+                    {[38, 62, 45, 75, 52, 88, 68].map((h, i) => (
+                      <div key={i} className="flex-1 rounded-sm"
+                        style={{ height: `${h}%`, background: i === 6 ? '#00b894' : 'rgba(0,184,148,0.22)' }} />
+                    ))}
+                  </div>
+
+                  {/* Account pills */}
+                  <div className="grid grid-cols-3 gap-1.5 mb-4">
+                    {[['BAM', 'Q 8,420', false], ['Efectivo', 'Q 1,200', false], ['Visa', '-Q 4,250', true]].map(([label, val, neg]) => (
+                      <div key={label} className="bg-[#0b1712] rounded-lg p-2">
+                        <p className="text-[#5a9070] text-[9px]">{label}</p>
+                        <p className={`font-mono text-[11px] font-medium ${neg ? 'text-[#e53e3e]' : 'text-[#f0f5f3]'}`}>{val}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Score widget */}
+                  <div className="flex items-center gap-3 bg-[#0b1712] rounded-xl p-3">
+                    <div className="w-9 h-9 rounded-full border-2 border-[#00b894] flex items-center justify-center shrink-0">
+                      <span className="font-mono text-[#00b894] text-xs font-medium">74</span>
+                    </div>
+                    <div>
+                      <p className="text-[#5a9070] text-[10px]">Score Financiero</p>
+                      <p className="text-[#f0f5f3] text-xs font-medium">Intermedio · ↑ +3 pts</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight mb-6">
-            ¿Sabes exactamente<br />
-            <span className="bg-gradient-to-r from-rose-400 via-orange-400 to-amber-400 bg-clip-text text-transparent">
-              a dónde va tu dinero?
-            </span>
-          </h1>
-
-          <p className="text-xl text-white/55 leading-relaxed mb-4 max-w-2xl mx-auto">
-            La mayoría de personas trabaja duro, gana bien... y aun así llega a fin de mes
-            sin entender qué pasó con su plata.
-          </p>
-
-          <p className="text-lg text-white/40 mb-10 max-w-xl mx-auto">
-            No es falta de disciplina. Es falta de visibilidad.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={`${APP_URL}/register`}
-              className="group flex items-center gap-2 px-7 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl transition-all shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 w-full sm:w-auto justify-center"
-            >
-              Quiero tener el control
-              <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href={`${APP_URL}/login`}
-              className="flex items-center gap-2 px-7 py-3.5 text-white/50 hover:text-white border border-white/10 hover:border-white/20 rounded-xl transition-all w-full sm:w-auto justify-center"
-            >
-              Ya tengo cuenta
-            </a>
+        {/* Banks trust strip */}
+        <div className="border-t border-[#1e3d2a]/50">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center gap-x-8 gap-y-2">
+            <span className="text-[#2e5c3e] text-xs font-medium shrink-0">Compatible con:</span>
+            {['Banrural', 'BAC Credomatic', 'BAM', 'Ficohsa', 'Davivienda', 'Banco Nacional'].map((b) => (
+              <span key={b} className="text-[#5a9070]/50 text-xs">{b}</span>
+            ))}
           </div>
-
-          <p className="mt-5 text-sm text-white/25">
-            Gratis · Sin tarjeta · Sin límites
-          </p>
         </div>
       </section>
 
-      {/* ── Dolores ──────────────────────────────────────────────────────── */}
-      <section className="py-20 px-6">
+      {/* ── Pain Points ── light ───────────────────────────────────────────── */}
+      <section className="bg-[#f0f5f3] py-24 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-black mb-3">¿Te suena familiar?</h2>
-            <p className="text-white/40 text-lg">
-              Si respondiste "sí" a alguno de estos, no estás solo.
+          <div className="text-center mb-14">
+            <h2 className="font-display font-semibold text-[#111816] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              ¿Te suena familiar?
+            </h2>
+            <p className="font-sans text-[#6a8880] text-lg max-w-lg mx-auto">
+              Si respondiste sí a alguno de estos, no estás solo. Es la realidad de millones en la región.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PAINS.map((p) => (
-              <div key={p.title} className={`p-6 rounded-2xl border ${p.bg} flex flex-col gap-3`}>
-                <p.icon size={22} className={p.color} />
-                <h3 className="font-bold text-white text-lg leading-snug">{p.title}</h3>
-                <p className="text-sm text-white/50 leading-relaxed">{p.desc}</p>
+              <div key={p.title}
+                className="bg-white border border-[#d0e0da] rounded-2xl p-7 shadow-mf-sm hover:shadow-mf-md hover:-translate-y-1 transition-all duration-200">
+                <div className="text-3xl mb-4">{p.emoji}</div>
+                <h3 className="font-sans font-bold text-[#111816] text-lg leading-snug mb-3">{p.title}</h3>
+                <p className="font-sans text-[#6a8880] text-sm leading-relaxed">{p.desc}</p>
               </div>
             ))}
           </div>
 
-          <div className="mt-10 text-center">
-            <p className="text-white/35 text-base max-w-2xl mx-auto leading-relaxed">
-              Las hojas de Excel se abandonan. Las apps bancarias solo muestran lo que ya pasó.
-              Y la cabeza no puede con tanto número.{' '}
-              <span className="text-white/60 font-medium">
-                El problema no sos vos. Es que nunca tuviste la herramienta correcta.
-              </span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Pivot a la solución ──────────────────────────────────────────── */}
-      <section className="py-8 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium mb-8">
-            <TrendingUp size={14} />
-            La solución existe. Es simple.
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-black mb-5 leading-tight">
-            FinTrack te da la{' '}
-            <span className="bg-gradient-to-r from-indigo-400 to-emerald-400 bg-clip-text text-transparent">
-              visibilidad que necesitás
-            </span>
-          </h2>
-          <p className="text-lg text-white/45 max-w-xl mx-auto leading-relaxed">
-            No es magia. Es tener tus números en un solo lugar, organizados,
-            y saber exactamente dónde estás parado cada día del mes.
+          <p className="mt-12 text-center font-sans text-[#6a8880] text-base max-w-2xl mx-auto leading-relaxed">
+            Las hojas de Excel se abandonan. Las apps bancarias solo muestran lo que ya pasó. El problema no sos vos.{' '}
+            <span className="text-[#111816] font-medium">Es que nunca tuviste la herramienta correcta.</span>
           </p>
         </div>
       </section>
 
-      {/* ── Soluciones ──────────────────────────────────────────────────── */}
-      <section className="py-16 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {SOLUTIONS.map((s) => (
-            <div
-              key={s.title}
-              className="p-6 bg-white/3 hover:bg-white/5 border border-white/6 hover:border-white/10 rounded-2xl transition-all"
-            >
-              <div className="flex items-start gap-4">
-                <div className={`w-11 h-11 rounded-xl ${s.bg} flex items-center justify-center shrink-0 mt-0.5`}>
-                  <s.icon size={20} className={s.color} />
+      {/* ── Features ── dark ──────────────────────────────────────────────── */}
+      <section id="funciones" className="bg-[#0b1712] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-[#00b894] text-xs font-medium uppercase tracking-widest mb-3">La solución</p>
+            <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Todo lo que necesitás para manejar tu dinero
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map((f) => (
+              <div key={f.title}
+                className="bg-[#152a1e] border border-[#1e3d2a] rounded-2xl p-6 hover:border-[#00b894]/30 transition-all group">
+                <div className="w-10 h-10 rounded-xl bg-[#0b1712] border border-[#1e3d2a] flex items-center justify-center mb-4 group-hover:border-[#00b894]/40 transition-colors">
+                  <f.icon size={18} className="text-[#00b894]" />
                 </div>
-                <div>
-                  <p className={`text-xs font-semibold uppercase tracking-wide mb-1 ${s.color}`}>
-                    {s.pain}
-                  </p>
-                  <h3 className="font-bold text-white mb-2">{s.title}</h3>
-                  <p className="text-sm text-white/45 leading-relaxed">{s.desc}</p>
+                <h3 className="font-sans font-bold text-[#f0f5f3] mb-2">{f.title}</h3>
+                <p className="font-sans text-[#5a9070] text-sm leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Remesas ── dark ───────────────────────────────────────────────── */}
+      <section className="bg-[#0b1712] border-t border-[#1e3d2a] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-[#00b894] text-xs font-medium uppercase tracking-widest mb-4">
+                Diferenciador regional
+              </p>
+              <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight mb-6"
+                style={{ fontSize: 'clamp(26px, 3vw, 38px)', letterSpacing: '-0.02em' }}>
+                La única app que entiende que las remesas son tu ingreso
+              </h2>
+              <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-6">
+                Para millones de familias en Honduras, El Salvador, Jamaica y República Dominicana, las remesas no son un ingreso "extra" — son la base del presupuesto mensual.
+              </p>
+              <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-8">
+                MoniFlow las trata como la categoría prioritaria que son: con origen, frecuencia y planificación integrada.
+              </p>
+              <a href={`${APP_URL}/register`}
+                className="inline-flex items-center gap-2 text-[#00b894] hover:text-[#55d8b4] font-medium text-sm transition-colors group">
+                Empezar a planificar mis remesas
+                <ChevronRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+
+            {/* Remesas mockup card */}
+            <div className="bg-[#152a1e] border border-[#1e3d2a] rounded-2xl p-6">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-full bg-[#00b894]/15 border border-[#00b894]/30 flex items-center justify-center">
+                  <Send size={16} className="text-[#00b894]" />
                 </div>
+                <div className="flex-1">
+                  <p className="text-[#5a9070] text-xs">Ingreso de remesa</p>
+                  <p className="font-mono text-[#f0f5f3] font-medium">+ $350.00 USD</p>
+                </div>
+                <span className="text-[#00b894] text-xs font-medium">Mensual</span>
+              </div>
+
+              <div className="space-y-3.5">
+                {[
+                  ['Gastos del hogar', '40%', '$140.00'],
+                  ['Deudas y cuotas',  '30%', '$105.00'],
+                  ['Ahorro familiar',  '20%', '$70.00'],
+                  ['Libre disposición','10%', '$35.00'],
+                ].map(([label, pct, val]) => (
+                  <div key={label}>
+                    <div className="flex justify-between text-xs mb-1.5">
+                      <span className="text-[#5a9070]">{label}</span>
+                      <span className="font-mono text-[#f0f5f3]">{val}</span>
+                    </div>
+                    <div className="h-1.5 bg-[#0b1712] rounded-full overflow-hidden">
+                      <div className="h-full bg-[#00b894]/55 rounded-full" style={{ width: pct }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-[#1e3d2a] flex items-center justify-between">
+                <span className="text-[#5a9070] text-xs">Planificado este mes</span>
+                <span className="text-[#00b894] text-xs font-medium">✓ 100% distribuido</span>
               </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      {/* ── Social proof ─────────────────────────────────────────────────── */}
-      <section className="py-16 px-6 border-y border-white/5">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-10 text-center">
-          {[
-            { val: 'Hoy mismo', label: 'Podés empezar a ver a dónde va tu plata' },
-            { val: '1 semana',  label: 'Para tener el primer presupuesto completo armado' },
-            { val: '1 mes',     label: 'Para sentir que realmente controlás tus finanzas' },
-          ].map((s) => (
-            <div key={s.val}>
-              <div className="text-2xl font-black text-indigo-400 mb-2">{s.val}</div>
-              <p className="text-sm text-white/40 leading-relaxed">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Cómo funciona ────────────────────────────────────────────────── */}
-      <section className="py-24 px-6">
+      {/* ── Cómo funciona ── light ────────────────────────────────────────── */}
+      <section id="como-funciona" className="bg-[#f0f5f3] py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-black mb-3">Empezar no tiene excusa</h2>
-            <p className="text-white/40">Tres pasos. Menos de cinco minutos.</p>
+            <h2 className="font-display font-semibold text-[#111816] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Empezá en 5 minutos
+            </h2>
+            <p className="font-sans text-[#6a8880] text-lg">Tres pasos. Sin aprendizaje. Sin fricción.</p>
           </div>
+
           <div className="space-y-4">
-            {STEPS.map((step, i) => (
-              <div
-                key={step.num}
-                className="flex items-start gap-5 p-5 bg-white/2 border border-white/5 rounded-2xl"
-              >
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/15 border border-indigo-500/20 flex items-center justify-center shrink-0">
-                  <span className="text-indigo-400 font-black">{step.num}</span>
+            {STEPS.map((step) => (
+              <div key={step.n}
+                className="bg-white border border-[#d0e0da] rounded-2xl p-6 flex items-start gap-5 shadow-mf-sm hover:shadow-mf-md transition-all duration-200">
+                <div className="w-12 h-12 rounded-xl bg-[#e4f8f3] border border-[#c0f0e4] flex items-center justify-center shrink-0">
+                  <span className="font-mono text-[#00b894] font-semibold text-sm">{step.n}</span>
                 </div>
                 <div>
-                  <h3 className="font-bold text-white mb-1">{step.title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{step.desc}</p>
+                  <h3 className="font-sans font-bold text-[#111816] mb-1">{step.title}</h3>
+                  <p className="font-sans text-[#6a8880] text-sm leading-relaxed">{step.desc}</p>
                 </div>
-                {i < 2 && (
-                  <ChevronRight size={16} className="text-white/15 ml-auto mt-3 shrink-0 hidden sm:block" />
-                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Precios ──────────────────────────────────────────────────────── */}
-      <section className="py-20 px-6" id="precios">
+      {/* ── Testimonials ── light ─────────────────────────────────────────── */}
+      <section className="bg-[#f0f5f3] border-t border-[#d0e0da] py-24 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-black mb-3">Precios simples y transparentes</h2>
-            <p className="text-white/40 text-lg">Empezá gratis. Escalá cuando lo necesités.</p>
+          <div className="text-center mb-14">
+            <h2 className="font-display font-semibold text-[#111816] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Lo que dicen nuestros usuarios
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.name}
+                className="bg-white border border-[#d0e0da] rounded-2xl p-7 shadow-mf-sm relative overflow-hidden">
+                <span className="font-display text-[72px] leading-none text-[#00b894]/12 absolute -top-2 left-3 select-none pointer-events-none">
+                  "
+                </span>
+                <p className="font-sans text-[#2a3a36] text-sm leading-relaxed mb-6 relative z-10 mt-4">
+                  "{t.quote}"
+                </p>
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-[#e4f8f3] border border-[#c0f0e4] flex items-center justify-center shrink-0">
+                    <span className="font-sans font-bold text-[#00b894] text-xs">{t.initials}</span>
+                  </div>
+                  <div>
+                    <p className="font-sans font-bold text-[#111816] text-sm">{t.name}</p>
+                    <p className="font-sans text-[#00b894] text-xs">{t.location}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Stats */}
+          <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+            {[
+              { val: 'Hoy mismo', label: 'Para empezar a ver a dónde va tu dinero' },
+              { val: '1 semana',  label: 'Para tener tu primer presupuesto completo' },
+              { val: '1 mes',     label: 'Para sentir que realmente controlás tus finanzas' },
+            ].map((s) => (
+              <div key={s.val}>
+                <p className="font-display font-semibold text-[#00b894] text-2xl mb-2">{s.val}</p>
+                <p className="font-sans text-[#6a8880] text-sm leading-relaxed">{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Comparativa ── dark ───────────────────────────────────────────── */}
+      <section className="bg-[#0b1712] py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              ¿Por qué MoniFlow y no otra app?
+            </h2>
+            <p className="font-sans text-[#5a9070] text-lg max-w-xl mx-auto">
+              Ninguna otra app fue diseñada desde el principio para la realidad financiera de Centroamérica y el Caribe.
+            </p>
+          </div>
+
+          <div className="bg-[#152a1e] border border-[#1e3d2a] rounded-2xl overflow-hidden">
+            {/* Header row */}
+            <div className="grid grid-cols-[1fr_repeat(4,72px)] bg-[#1e3d2a]/50 border-b border-[#1e3d2a]">
+              <div className="px-6 py-4" />
+              {['MoniFlow', 'Wallet', 'PocketSmith', 'Simplifi'].map((name, i) => (
+                <div key={name}
+                  className={`px-1 py-4 text-center text-xs font-semibold ${i === 0 ? 'text-[#00b894]' : 'text-[#5a9070]'}`}>
+                  {name}
+                </div>
+              ))}
+            </div>
+
+            {/* Data rows */}
+            {COMPARISON.map((row, i) => (
+              <div key={row.feature}
+                className={`grid grid-cols-[1fr_repeat(4,72px)] border-b border-[#1e3d2a]/60 last:border-0 ${i % 2 === 1 ? 'bg-[#0b1712]/30' : ''}`}>
+                <div className="px-6 py-4 font-sans text-[#5a9070] text-sm">{row.feature}</div>
+                <div className="py-4 flex items-center justify-center"><CompCell val={row.mf} /></div>
+                <div className="py-4 flex items-center justify-center"><CompCell val={row.wallet} /></div>
+                <div className="py-4 flex items-center justify-center"><CompCell val={row.pocket} /></div>
+                <div className="py-4 flex items-center justify-center"><CompCell val={row.simplifi} /></div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-[#2e5c3e] text-xs mt-4">
+            — = parcialmente disponible · Fuentes: sitios oficiales y centros de ayuda de cada app
+          </p>
+        </div>
+      </section>
+
+      {/* ── Precios ── dark ───────────────────────────────────────────────── */}
+      <section id="precios" className="bg-[#0b1712] border-t border-[#1e3d2a] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Planes para cada etapa de tu vida financiera
+            </h2>
+            <p className="font-sans text-[#5a9070] text-lg">Empezá gratis. Escalá cuando lo necesités.</p>
           </div>
           <PricingSection />
         </div>
       </section>
 
-      {/* ── CTA final ────────────────────────────────────────────────────── */}
-      <section className="py-20 px-6">
+      {/* ── Final CTA ── dark ─────────────────────────────────────────────── */}
+      <section className="bg-[#0b1712] border-t border-[#1e3d2a] py-24 px-6">
         <div className="max-w-2xl mx-auto text-center">
-          <div className="bg-gradient-to-br from-indigo-900/50 to-purple-900/30 border border-indigo-500/20 rounded-3xl p-10 lg:p-14">
-            <p className="text-indigo-300 font-semibold text-sm uppercase tracking-widest mb-4">
-              La pregunta sigue ahí
-            </p>
-            <h2 className="text-3xl lg:text-4xl font-black mb-5 leading-tight">
-              ¿Vas a seguir sin saber<br />a dónde va tu dinero?
-            </h2>
-            <p className="text-white/45 mb-8 leading-relaxed">
-              O podés empezar hoy, gratis, y cerrar este mes sabiendo
-              exactamente qué pasó con cada peso que ganaste.
-            </p>
-            <a
-              href={`${APP_URL}/register`}
-              className="group inline-flex items-center gap-2 px-8 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 hover:-translate-y-0.5"
-            >
-              Quiero saber a dónde va mi plata
-              <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-5 text-sm text-white/30">
-              {['Gratis para siempre', 'Sin tarjeta de crédito', 'Listo en minutos'].map((t) => (
-                <div key={t} className="flex items-center gap-1.5">
-                  <CheckCircle2 size={13} className="text-indigo-400" />
-                  {t}
-                </div>
-              ))}
-            </div>
+          <div className="w-10 h-0.5 bg-[#00b894] mx-auto mb-10 rounded-full" />
+
+          <h2 className="font-display font-semibold text-[#f0f5f3] leading-[1.05] mb-6"
+            style={{ fontSize: 'clamp(34px, 4.5vw, 54px)', letterSpacing: '-0.02em' }}>
+            Empezá hoy.<br />Es gratis.
+          </h2>
+
+          <p className="font-sans text-[#5a9070] text-lg leading-relaxed mb-10 max-w-lg mx-auto">
+            Miles de personas en Centroamérica y el Caribe ya saben exactamente a dónde va su dinero cada mes. Vos también podés.
+          </p>
+
+          <a href={`${APP_URL}/register`}
+            className="group inline-flex items-center gap-2 px-9 py-4 bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] font-bold rounded-lg transition-all shadow-caribe hover:-translate-y-0.5 text-base">
+            Crear cuenta gratis
+            <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+          </a>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-5 text-sm text-[#2e5c3e]">
+            {['Gratis para siempre', 'Sin tarjeta de crédito', 'Listo en minutos', 'Cancela cuando quieras'].map((t) => (
+              <div key={t} className="flex items-center gap-1.5">
+                <CheckCircle2 size={13} className="text-[#00b894]" />
+                <span>{t}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── Footer ───────────────────────────────────────────────────────── */}
-      <footer className="border-t border-white/5 py-10 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-indigo-600 flex items-center justify-center">
-              <TrendingUp size={12} className="text-white" />
-            </div>
-            <span className="font-bold text-sm">FinTrack</span>
+      {/* ── Footer ────────────────────────────────────────────────────────── */}
+      <footer className="bg-[#060e0a] border-t border-[#00b894]/20 py-12 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
+            <a href="/" className="flex items-center gap-3">
+              <MFLogo size={26} />
+              <span className="font-sans font-semibold text-[#f0f5f3] text-sm" style={{ letterSpacing: '-0.01em' }}>
+                MoniFlow
+              </span>
+            </a>
+            <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+              {[
+                ['Funciones', '#funciones'],
+                ['Precios', '#precios'],
+                ['Iniciar sesión', `${APP_URL}/login`],
+                ['Registrarse', `${APP_URL}/register`],
+              ].map(([label, href]) => (
+                <a key={label} href={href}
+                  className="font-sans text-sm text-[#f0f5f3]/35 hover:text-[#f0f5f3]/65 transition-colors">
+                  {label}
+                </a>
+              ))}
+            </nav>
           </div>
-          <p className="text-xs text-white/20 text-center">
-            Gestión financiera personal &middot; Todos los derechos reservados
-          </p>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href={`${APP_URL}/login`}    className="hover:text-white/60 transition-colors">Iniciar sesión</a>
-            <a href={`${APP_URL}/register`} className="hover:text-white/60 transition-colors">Registrarse</a>
-            <a href="#precios"              className="hover:text-white/60 transition-colors">Precios</a>
+          <div className="border-t border-[#152a1e] pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <p className="font-sans text-xs text-[#f0f5f3]/20">
+              © 2025 MoniFlow · Todos los derechos reservados
+            </p>
+            <p className="font-sans text-xs text-[#f0f5f3]/20">
+              Hecho en Centroamérica 🌿
+            </p>
           </div>
         </div>
       </footer>
