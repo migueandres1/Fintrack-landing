@@ -3,7 +3,7 @@ import {
   BarChart2, Wallet, CreditCard, Target,
   TrendingUp, Receipt, Send, ChevronRight,
   Calculator, TrendingDown, PiggyBank, Percent,
-  LayoutGrid,
+  LayoutGrid, Smartphone, Bell,
 } from 'lucide-react';
 import PricingSection from './PricingSection.jsx';
 
@@ -306,13 +306,31 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Banks trust strip */}
+        {/* Countries strip */}
         <div className="border-t border-[#1e3d2a]/50">
-          <div className="max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center gap-x-8 gap-y-2">
-            <span className="text-[#2e5c3e] text-xs font-medium shrink-0">Compatible con:</span>
-            {['Banrural', 'BAC Credomatic', 'BAM', 'Ficohsa', 'Davivienda', 'Banco Nacional'].map((b) => (
-              <span key={b} className="text-[#5a9070]/50 text-xs">{b}</span>
+          <div className="max-w-6xl mx-auto px-6 py-5 flex flex-wrap items-center gap-x-1 gap-y-3">
+            <span className="text-[#2e5c3e] text-xs font-medium shrink-0 mr-4">
+              Diseñado para tu región:
+            </span>
+            {[
+              ['🇬🇹', 'Guatemala'],
+              ['🇭🇳', 'Honduras'],
+              ['🇸🇻', 'El Salvador'],
+              ['🇨🇷', 'Costa Rica'],
+              ['🇳🇮', 'Nicaragua'],
+              ['🇵🇦', 'Panamá'],
+              ['🇩🇴', 'Rep. Dominicana'],
+              ['🇪🇨', 'Ecuador'],
+            ].map(([flag, country], i, arr) => (
+              <span key={country} className="flex items-center gap-1.5 text-[#5a9070]/60 text-xs">
+                <span>{flag}</span>
+                <span>{country}</span>
+                {i < arr.length - 1 && (
+                  <span className="ml-1 text-[#1e3d2a]">·</span>
+                )}
+              </span>
             ))}
+            <span className="ml-2 text-[#2e5c3e] text-xs italic">y más próximamente</span>
           </div>
         </div>
       </section>
@@ -392,7 +410,7 @@ export default function Landing() {
                 La única app que entiende que las remesas son tu ingreso
               </h2>
               <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-6">
-                Para millones de familias en Honduras, El Salvador, Jamaica y República Dominicana, las remesas no son un ingreso "extra" — son la base del presupuesto mensual.
+                Para millones de familias en Honduras, El Salvador, Ecuador y República Dominicana, las remesas no son un ingreso "extra" — son la base del presupuesto mensual.
               </p>
               <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-8">
                 MoniFlow las trata como la categoría prioritaria que son: con origen, frecuencia y planificación integrada.
@@ -655,6 +673,137 @@ export default function Landing() {
                 <span>{t}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Mobile App ── dark ───────────────────────────────────────────── */}
+      <section className="bg-[#0b1712] border-t border-[#1e3d2a] py-20 px-6 overflow-hidden">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+            {/* Left: copy */}
+            <div>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#152a1e] border border-[#2e5c3e] text-[#00b894] text-xs font-medium mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#00b894] animate-pulse" />
+                En desarrollo
+              </span>
+
+              <h2 className="font-display font-semibold text-[#f0f5f3] leading-[1.05] mb-4"
+                style={{ fontSize: 'clamp(28px, 3.5vw, 44px)', letterSpacing: '-0.02em' }}>
+                MoniFlow en tu bolsillo.<br />
+                <span className="text-[#00b894]">Muy pronto.</span>
+              </h2>
+
+              <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-8 max-w-md">
+                La app ya está disponible en web. Las versiones para iOS y Android están en camino —
+                diseñadas para que puedas registrar un gasto, revisar tu flujo de caja o fotografiar un recibo
+                en cualquier momento, desde donde estés.
+              </p>
+
+              {/* Store badges (placeholder) */}
+              <div className="flex flex-wrap gap-3 mb-8">
+                {[
+                  { label: 'App Store', sub: 'Próximamente para iPhone', icon: '⬢' },
+                  { label: 'Google Play', sub: 'Próximamente para Android', icon: '⬡' },
+                ].map((store) => (
+                  <div key={store.label}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#152a1e] border border-[#1e3d2a] opacity-60 cursor-not-allowed select-none">
+                    <Smartphone size={20} className="text-[#5a9070] shrink-0" />
+                    <div>
+                      <p className="font-sans font-semibold text-[#f0f5f3] text-sm leading-none">{store.label}</p>
+                      <p className="font-sans text-[#5a9070] text-xs mt-0.5">{store.sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Notify CTA */}
+              <a href={`${APP_URL}/register`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#00b894]/40 text-[#00b894] hover:bg-[#00b894]/10 text-sm font-medium transition-colors group">
+                <Bell size={14} />
+                Avísame cuando esté disponible
+              </a>
+              <p className="font-sans text-[#2e5c3e] text-xs mt-3">
+                Crea tu cuenta hoy y te notificamos el día que lancemos.
+              </p>
+            </div>
+
+            {/* Right: phone wireframe illustration */}
+            <div className="flex justify-center lg:justify-end">
+              <div className="relative">
+                {/* Glow */}
+                <div className="absolute inset-0 bg-[#00b894]/10 blur-3xl rounded-full pointer-events-none" />
+
+                {/* Two phone frames */}
+                <div className="relative flex items-end gap-4">
+                  {/* Back phone (Android) */}
+                  <div className="w-[130px] bg-[#152a1e] border border-[#1e3d2a] rounded-[22px] p-3 mb-6 opacity-60"
+                    style={{ transform: 'perspective(800px) rotateY(8deg) rotateX(-2deg)' }}>
+                    <div className="w-6 h-1 bg-[#1e3d2a] rounded-full mx-auto mb-3" />
+                    <div className="space-y-2">
+                      <div className="h-2 bg-[#1e3d2a] rounded-full w-3/4" />
+                      <div className="h-6 bg-[#0b1712] rounded-lg" />
+                      <div className="grid grid-cols-2 gap-1.5">
+                        {[...Array(4)].map((_, i) => (
+                          <div key={i} className="h-10 bg-[#0b1712] rounded-lg" />
+                        ))}
+                      </div>
+                      <div className="h-2 bg-[#1e3d2a] rounded-full w-1/2" />
+                      <div className="flex gap-1 items-end h-8">
+                        {[40, 65, 50, 80, 60].map((h, i) => (
+                          <div key={i} className="flex-1 rounded-sm"
+                            style={{ height: `${h}%`, background: i === 3 ? 'rgba(0,184,148,0.4)' : 'rgba(0,184,148,0.15)' }} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Front phone (iOS) */}
+                  <div className="w-[150px] bg-[#152a1e] border border-[#2e5c3e] rounded-[26px] p-3 shadow-caribe-lg"
+                    style={{ transform: 'perspective(800px) rotateY(-4deg) rotateX(1deg)' }}>
+                    {/* Notch */}
+                    <div className="w-8 h-1.5 bg-[#0b1712] rounded-full mx-auto mb-3" />
+                    <div className="space-y-2.5">
+                      <div className="flex justify-between items-center">
+                        <div className="h-2 bg-[#2e5c3e] rounded-full w-1/2" />
+                        <div className="w-6 h-6 rounded-full bg-[#00b894]/20 border border-[#00b894]/30" />
+                      </div>
+                      {/* Balance */}
+                      <div className="bg-[#0b1712] rounded-xl p-2.5">
+                        <div className="h-1.5 bg-[#1e3d2a] rounded-full w-1/2 mb-1.5" />
+                        <div className="h-3 bg-[#00b894]/30 rounded-full w-3/4" />
+                        <div className="h-1.5 bg-[#00b894]/50 rounded-full w-1/3 mt-1" />
+                      </div>
+                      {/* Chart */}
+                      <div className="flex gap-1 items-end h-10">
+                        {[35, 55, 45, 70, 50, 85, 65].map((h, i) => (
+                          <div key={i} className="flex-1 rounded-sm"
+                            style={{ height: `${h}%`, background: i === 5 ? '#00b894' : 'rgba(0,184,148,0.2)' }} />
+                        ))}
+                      </div>
+                      {/* Cards */}
+                      {[...Array(3)].map((_, i) => (
+                        <div key={i} className="flex items-center gap-1.5">
+                          <div className="w-3 h-3 rounded bg-[#1e3d2a]" />
+                          <div className="h-1.5 bg-[#1e3d2a] rounded-full flex-1" />
+                          <div className="h-1.5 bg-[#2e5c3e] rounded-full w-8" />
+                        </div>
+                      ))}
+                    </div>
+                    {/* Home bar */}
+                    <div className="w-8 h-1 bg-[#2e5c3e] rounded-full mx-auto mt-3" />
+                  </div>
+                </div>
+
+                {/* Labels */}
+                <div className="flex justify-between mt-3 px-2">
+                  <span className="font-sans text-[#2e5c3e] text-[10px]">Android</span>
+                  <span className="font-sans text-[#5a9070] text-[10px]">iOS</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
