@@ -2,6 +2,8 @@ import {
   ArrowRight, CheckCircle2, Check, X, Minus,
   BarChart2, Wallet, CreditCard, Target,
   TrendingUp, Receipt, Send, ChevronRight,
+  Calculator, TrendingDown, PiggyBank, Percent,
+  LayoutGrid,
 } from 'lucide-react';
 import PricingSection from './PricingSection.jsx';
 
@@ -25,69 +27,69 @@ function MFLogo({ size = 36, color = '#f0f5f3' }) {
 // ── Data ─────────────────────────────────────────────────────────────────────
 const PAINS = [
   {
-    emoji: '🤔',
+    icon:  TrendingDown,
     title: '¿A dónde se fue el sueldo?',
-    desc:  'El dinero entra, el mes pasa, y la cuenta está casi en cero. Sabés que gastaste, pero no recordás en qué.',
+    desc:  'El sueldo llega el lunes y el miércoles ya no sé exactamente qué pasó. Sé que gasté, pero no recuerdo en qué.',
   },
   {
-    emoji: '😰',
+    icon:  CreditCard,
     title: 'Solo pago el mínimo de la tarjeta',
-    desc:  'Porque no sabés cuánto debés en total ni cuánto te cuesta en intereses cada mes que dejás pasar.',
+    desc:  'Porque no sé exactamente cuánto debo en total ni cuánto me cuesta en intereses cada mes que dejo pasar.',
   },
   {
-    emoji: '😵',
-    title: 'Mi Excel tiene 40 pestañas',
-    desc:  'Empezaste ordenado, pero se fue complicando. Al final lo abandonás y volvés a adivinar.',
+    icon:  LayoutGrid,
+    title: 'Tengo tres hojas de cálculo y igual no funciona',
+    desc:  'Empecé ordenado, pero se fue complicando. Al final lo abandoné y volví a adivinar.',
   },
 ];
 
 const FEATURES = [
   {
     icon:  BarChart2,
-    title: 'Control de gastos',
+    title: 'Sabe exactamente a dónde va tu dinero',
     desc:  'Registrá en efectivo o tarjeta en segundos. Categorías automáticas con IA. Ve cuánto llevás gastado vs. lo planeado.',
   },
   {
     icon:  CreditCard,
-    title: 'Tarjetas de crédito',
-    desc:  'Fecha de corte, saldo real, intereses estimados. Sabe qué pasa si solo pagás el mínimo vs. el total.',
+    title: 'Deja de adivinar cuánto debes en tu tarjeta',
+    desc:  'Fecha de corte, saldo real, intereses estimados. Ve qué pasa si solo pagás el mínimo vs. el total.',
   },
   {
     icon:  Wallet,
-    title: 'Préstamos y deudas',
-    desc:  'Tabla de amortización completa. Cuánto va a capital y cuánto a intereses. Estrategias snowball y avalanche.',
-  },
-  {
-    icon:  Target,
-    title: 'Metas de ahorro',
-    desc:  'Definí cuánto necesitás y para cuándo. La IA calcula cuánto aportar cada mes según tus ingresos reales.',
+    title: 'Por primera vez, entiende tu tabla de amortización',
+    desc:  'Desglose completo cuota por cuota. Cuánto va a capital y cuánto a intereses. Estrategias snowball y avalanche.',
   },
   {
     icon:  TrendingUp,
-    title: 'Flujo de caja',
-    desc:  'Proyección día a día de tu saldo futuro. Ve los problemas antes de que pasen, no después.',
+    title: 'Sabe si llegarás a fin de mes antes de que llegue',
+    desc:  'Proyección día a día de tu saldo futuro. Ve los problemas con anticipación, no después.',
+  },
+  {
+    icon:  Target,
+    title: 'Tu próxima meta, con un plan que sí funciona',
+    desc:  'Definí cuánto necesitás y para cuándo. La IA calcula cuánto aportar cada mes según tus ingresos reales.',
   },
   {
     icon:  Receipt,
-    title: 'Escaneo de recibos con IA',
-    desc:  'Fotografiá el ticket y la IA registra el gasto por vos. Sin tipear. Sin excusas.',
+    title: 'Fotografía tu recibo. Listo.',
+    desc:  'La IA lee el ticket y registra el gasto por vos. Sin tipear. Sin excusas.',
   },
 ];
 
 const STEPS = [
   {
     n:     '01',
-    title: 'Creá tu cuenta',
+    title: 'Crea tu perfil financiero',
     desc:  'Solo tu correo. Sin datos bancarios. Sin tarjeta. Listo en 30 segundos.',
   },
   {
     n:     '02',
-    title: 'Contale de qué va tu vida financiera',
-    desc:  'Agregá tus cuentas, tarjetas y deudas. El onboarding te guía en menos de 3 minutos.',
+    title: 'Agrega tus movimientos',
+    desc:  'Cuentas, tarjetas y deudas en un solo lugar. El onboarding te guía en menos de 3 minutos.',
   },
   {
     n:     '03',
-    title: 'Tomá el control desde hoy',
+    title: 'Ve tu dinero en tiempo real',
     desc:  'Fotografiá un recibo, armá tu presupuesto del mes, definí tu primera meta de ahorro.',
   },
 ];
@@ -114,12 +116,15 @@ const TESTIMONIALS = [
 ];
 
 const COMPARISON = [
-  { feature: 'Español completo',              mf: 'yes', wallet: 'yes',  pocket: 'no',   simplifi: 'no'  },
-  { feature: 'Módulo deudas en iOS y Web',    mf: 'yes', wallet: 'no',   pocket: 'part', simplifi: 'no'  },
-  { feature: 'Remesas como categoría nativa', mf: 'yes', wallet: 'no',   pocket: 'no',   simplifi: 'no'  },
-  { feature: 'Bancos centroamericanos',       mf: 'yes', wallet: 'part', pocket: 'no',   simplifi: 'no'  },
-  { feature: 'Score financiero personal',     mf: 'yes', wallet: 'no',   pocket: 'no',   simplifi: 'no'  },
-  { feature: 'Precio accesible (USD)',        mf: 'yes', wallet: 'part', pocket: 'no',   simplifi: 'no'  },
+  { feature: 'Español completo',                mf: 'yes', wallet: 'yes',  pocket: 'no'  },
+  { feature: 'Módulo de deudas completo',       mf: 'yes', wallet: 'no',   pocket: 'part' },
+  { feature: 'Remesas como categoría nativa',   mf: 'yes', wallet: 'no',   pocket: 'no'  },
+  { feature: 'Bancos centroamericanos',         mf: 'yes', wallet: 'part', pocket: 'no'  },
+  { feature: 'Score financiero personal',       mf: 'yes', wallet: 'no',   pocket: 'no'  },
+  { feature: 'Tabla de amortización',           mf: 'yes', wallet: 'no',   pocket: 'yes' },
+  { feature: 'Flujo de caja proyectado',        mf: 'yes', wallet: 'no',   pocket: 'yes' },
+  { feature: 'Plan gratuito disponible',        mf: 'yes', wallet: 'yes',  pocket: 'no'  },
+  { feature: 'Precio accesible para la región', mf: 'yes', wallet: 'part', pocket: 'no'  },
 ];
 
 function CompCell({ val }) {
@@ -128,6 +133,29 @@ function CompCell({ val }) {
   if (val === 'part') return <Minus size={16} className="mx-auto text-[#f0a500]" />;
   return null;
 }
+
+const CALCULADORAS = [
+  {
+    icon:  Calculator,
+    title: 'Calculadora de tarjeta de crédito',
+    desc:  'Ve cuánto te cuesta pagar solo el mínimo y cuándo terminarías de pagar.',
+  },
+  {
+    icon:  TrendingDown,
+    title: 'Simulador de deuda snowball / avalanche',
+    desc:  'Compará estrategias para salir de deudas más rápido y pagar menos intereses.',
+  },
+  {
+    icon:  PiggyBank,
+    title: 'Calculadora de meta de ahorro',
+    desc:  'Cuánto necesitás ahorrar por mes para llegar a tu meta en el tiempo que querés.',
+  },
+  {
+    icon:  Percent,
+    title: 'Tabla de amortización de préstamo',
+    desc:  'Desglose cuota por cuota: capital, intereses y saldo pendiente.',
+  },
+];
 
 // ── Component ────────────────────────────────────────────────────────────────
 export default function Landing() {
@@ -145,7 +173,7 @@ export default function Landing() {
           </a>
 
           <nav className="hidden md:flex items-center gap-6">
-            {[['Funciones', '#funciones'], ['Precios', '#precios']].map(([label, href]) => (
+            {[['Funciones', '#funciones'], ['Calculadoras', '#calculadoras'], ['Precios', '#precios']].map(([label, href]) => (
               <a key={label} href={href}
                 className="text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors">
                 {label}
@@ -168,13 +196,22 @@ export default function Landing() {
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
       <section className="bg-[#0b1712] min-h-[calc(100vh-64px)] flex flex-col justify-center relative overflow-hidden">
-        {/* Subtle grid texture */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.15]"
-          style={{
-            backgroundImage: 'linear-gradient(rgba(46,92,62,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(46,92,62,0.4) 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
-        />
+        {/* Topographic SVG texture */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.07]" aria-hidden="true">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="topo" x="0" y="0" width="400" height="300" patternUnits="userSpaceOnUse">
+                <path d="M-40 240 Q40 180 120 220 Q200 260 280 200 Q360 140 440 180" fill="none" stroke="#00b894" strokeWidth="1"/>
+                <path d="M-40 210 Q40 150 120 190 Q200 230 280 170 Q360 110 440 150" fill="none" stroke="#00b894" strokeWidth="1"/>
+                <path d="M-40 180 Q60 120 140 160 Q220 200 300 140 Q380 80 460 120" fill="none" stroke="#00b894" strokeWidth="1"/>
+                <path d="M-40 150 Q80 90 160 130 Q240 170 320 110 Q400 50 480 90" fill="none" stroke="#00b894" strokeWidth="1"/>
+                <path d="M-40 120 Q100 60 180 100 Q260 140 340 80 Q420 20 500 60" fill="none" stroke="#00b894" strokeWidth="1"/>
+                <path d="M0 290 Q80 230 160 270 Q240 310 320 250 Q400 190 480 230" fill="none" stroke="#00b894" strokeWidth="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#topo)" />
+          </svg>
+        </div>
 
         <div className="max-w-6xl mx-auto px-6 py-20 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] gap-12 items-center">
@@ -189,7 +226,8 @@ export default function Landing() {
               <h1 className="font-display font-light text-[#f0f5f3] leading-[1.05] mb-6"
                 style={{ fontSize: 'clamp(42px, 5.5vw, 68px)', letterSpacing: '-0.02em' }}>
                 Tu dinero,<br />
-                <span className="font-semibold">bajo control.</span>
+                <span className="font-semibold">bajo control.</span><br />
+                <span className="font-light italic" style={{ color: '#00b894' }}>En tu idioma.</span>
               </h1>
 
               <p className="font-sans text-[#5a9070] text-lg leading-relaxed mb-3 max-w-lg">
@@ -211,8 +249,8 @@ export default function Landing() {
                 </a>
               </div>
 
-              <p className="text-xs text-[#2e5c3e]">
-                Sin tarjeta de crédito · Cancela cuando quieras
+              <p className="text-xs text-[#5a9070]">
+                ✓ Web, iOS y Android &nbsp;·&nbsp; ✓ En español &nbsp;·&nbsp; ✓ 30 días gratis en Pro
               </p>
             </div>
 
@@ -226,8 +264,8 @@ export default function Landing() {
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <p className="text-[#5a9070] text-[11px] font-medium">Buenos días, Sofía</p>
-                      <p className="font-mono text-[#f0f5f3] text-xl font-medium mt-0.5">Q 8,420.00</p>
-                      <p className="text-[#00b894] text-[11px] mt-0.5">↑ +Q 250 vs. mes pasado</p>
+                      <p className="font-mono text-[#f0f5f3] text-xl font-medium mt-0.5">$ 2,840.00</p>
+                      <p className="text-[#00b894] text-[11px] mt-0.5">↑ +$ 120 vs. mes pasado</p>
                     </div>
                     <div className="w-9 h-9 rounded-xl bg-[#0b1712] flex items-center justify-center border border-[#1e3d2a]">
                       <MFLogo size={18} />
@@ -244,7 +282,7 @@ export default function Landing() {
 
                   {/* Account pills */}
                   <div className="grid grid-cols-3 gap-1.5 mb-4">
-                    {[['BAM', 'Q 8,420', false], ['Efectivo', 'Q 1,200', false], ['Visa', '-Q 4,250', true]].map(([label, val, neg]) => (
+                    {[['BAC', '$ 2,840', false], ['Efectivo', '$ 450', false], ['Visa', '-$ 1,250', true]].map(([label, val, neg]) => (
                       <div key={label} className="bg-[#0b1712] rounded-lg p-2">
                         <p className="text-[#5a9070] text-[9px]">{label}</p>
                         <p className={`font-mono text-[11px] font-medium ${neg ? 'text-[#e53e3e]' : 'text-[#f0f5f3]'}`}>{val}</p>
@@ -279,6 +317,9 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Horizon accent line */}
+      <div className="h-px bg-[#00b894]" aria-hidden="true" />
+
       {/* ── Pain Points ── light ───────────────────────────────────────────── */}
       <section className="bg-[#f0f5f3] py-24 px-6">
         <div className="max-w-5xl mx-auto">
@@ -296,7 +337,9 @@ export default function Landing() {
             {PAINS.map((p) => (
               <div key={p.title}
                 className="bg-white border border-[#d0e0da] rounded-2xl p-7 shadow-mf-sm hover:shadow-mf-md hover:-translate-y-1 transition-all duration-200">
-                <div className="text-3xl mb-4">{p.emoji}</div>
+                <div className="w-11 h-11 rounded-xl bg-[#e4f8f3] border border-[#c0f0e4] flex items-center justify-center mb-5">
+                  <p.icon size={20} className="text-[#009a7a]" />
+                </div>
                 <h3 className="font-sans font-bold text-[#111816] text-lg leading-snug mb-3">{p.title}</h3>
                 <p className="font-sans text-[#6a8880] text-sm leading-relaxed">{p.desc}</p>
               </div>
@@ -304,8 +347,8 @@ export default function Landing() {
           </div>
 
           <p className="mt-12 text-center font-sans text-[#6a8880] text-base max-w-2xl mx-auto leading-relaxed">
-            Las hojas de Excel se abandonan. Las apps bancarias solo muestran lo que ya pasó. El problema no sos vos.{' '}
-            <span className="text-[#111816] font-medium">Es que nunca tuviste la herramienta correcta.</span>
+            No es falta de disciplina. Es falta de una herramienta diseñada para tu realidad.{' '}
+            <span className="text-[#111816] font-medium">Las apps que existen no fueron hechas para Centroamérica ni el Caribe.</span>
           </p>
         </div>
       </section>
@@ -354,6 +397,20 @@ export default function Landing() {
               <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-8">
                 MoniFlow las trata como la categoría prioritaria que son: con origen, frecuencia y planificación integrada.
               </p>
+              {/* Stats row */}
+              <div className="flex flex-wrap gap-6 mb-8">
+                {[
+                  { val: '55M+',    label: 'personas reciben remesas' },
+                  { val: '15–25%',  label: 'del PIB en algunos países' },
+                  { val: '8',       label: 'monedas de la región' },
+                ].map((s) => (
+                  <div key={s.val}>
+                    <p className="font-mono text-[#00b894] text-2xl font-semibold">{s.val}</p>
+                    <p className="font-sans text-[#5a9070] text-xs mt-0.5">{s.label}</p>
+                  </div>
+                ))}
+              </div>
+
               <a href={`${APP_URL}/register`}
                 className="inline-flex items-center gap-2 text-[#00b894] hover:text-[#55d8b4] font-medium text-sm transition-colors group">
                 Empezar a planificar mis remesas
@@ -410,7 +467,7 @@ export default function Landing() {
               style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
               Empezá en 5 minutos
             </h2>
-            <p className="font-sans text-[#6a8880] text-lg">Tres pasos. Sin aprendizaje. Sin fricción.</p>
+            <p className="font-sans text-[#6a8880] text-lg">Sin tutoriales largos. Sin configuraciones complicadas.</p>
           </div>
 
           <div className="space-y-4">
@@ -494,11 +551,11 @@ export default function Landing() {
 
           <div className="bg-[#152a1e] border border-[#1e3d2a] rounded-2xl overflow-hidden">
             {/* Header row */}
-            <div className="grid grid-cols-[1fr_repeat(4,72px)] bg-[#1e3d2a]/50 border-b border-[#1e3d2a]">
+            <div className="grid grid-cols-[1fr_repeat(3,80px)] bg-[#1e3d2a]/50 border-b border-[#1e3d2a]">
               <div className="px-6 py-4" />
-              {['MoniFlow', 'Wallet', 'PocketSmith', 'Simplifi'].map((name, i) => (
+              {[['MoniFlow', true], ['Wallet BB', false], ['PocketSmith', false]].map(([name, highlight]) => (
                 <div key={name}
-                  className={`px-1 py-4 text-center text-xs font-semibold ${i === 0 ? 'text-[#00b894]' : 'text-[#5a9070]'}`}>
+                  className={`px-1 py-4 text-center text-xs font-semibold ${highlight ? 'text-[#00b894]' : 'text-[#5a9070]'}`}>
                   {name}
                 </div>
               ))}
@@ -507,19 +564,53 @@ export default function Landing() {
             {/* Data rows */}
             {COMPARISON.map((row, i) => (
               <div key={row.feature}
-                className={`grid grid-cols-[1fr_repeat(4,72px)] border-b border-[#1e3d2a]/60 last:border-0 ${i % 2 === 1 ? 'bg-[#0b1712]/30' : ''}`}>
+                className={`grid grid-cols-[1fr_repeat(3,80px)] border-b border-[#1e3d2a]/60 last:border-0 ${i % 2 === 1 ? 'bg-[#0b1712]/30' : ''}`}>
                 <div className="px-6 py-4 font-sans text-[#5a9070] text-sm">{row.feature}</div>
                 <div className="py-4 flex items-center justify-center"><CompCell val={row.mf} /></div>
                 <div className="py-4 flex items-center justify-center"><CompCell val={row.wallet} /></div>
                 <div className="py-4 flex items-center justify-center"><CompCell val={row.pocket} /></div>
-                <div className="py-4 flex items-center justify-center"><CompCell val={row.simplifi} /></div>
               </div>
             ))}
           </div>
 
-          <p className="text-center text-[#2e5c3e] text-xs mt-4">
+          <p className="text-center text-[#2e5c3e] text-xs mt-3">
             — = parcialmente disponible · Fuentes: sitios oficiales y centros de ayuda de cada app
           </p>
+          <p className="text-center font-sans text-[#5a9070] text-sm mt-4 max-w-xl mx-auto leading-relaxed">
+            PocketSmith tiene flujo de caja y amortización, pero está en inglés y sus precios (desde $17/mes) no son accesibles para nuestra región. Wallet BB tiene español pero carece de módulo de deudas real. MoniFlow combina ambos, en español, al precio correcto.
+          </p>
+        </div>
+      </section>
+
+      {/* ── Calculadoras ── dark ─────────────────────────────────────────── */}
+      <section id="calculadoras" className="bg-[#152a1e] border-t border-[#1e3d2a] py-24 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <p className="text-[#00b894] text-xs font-medium uppercase tracking-widest mb-3">Herramientas gratuitas</p>
+            <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight mb-4"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Calculadoras que te ayudan hoy
+            </h2>
+            <p className="font-sans text-[#5a9070] text-lg max-w-lg mx-auto">
+              Sin registrarte. Úsalas ahora y luego impórtalas a tu cuenta.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {CALCULADORAS.map((c) => (
+              <div key={c.title}
+                className="bg-[#0b1712] border border-[#1e3d2a] rounded-2xl p-6 hover:border-[#00b894]/30 transition-all group cursor-pointer">
+                <div className="w-10 h-10 rounded-xl bg-[#152a1e] border border-[#1e3d2a] flex items-center justify-center mb-4 group-hover:border-[#00b894]/40 transition-colors">
+                  <c.icon size={18} className="text-[#00b894]" />
+                </div>
+                <h3 className="font-sans font-bold text-[#f0f5f3] text-sm leading-snug mb-2">{c.title}</h3>
+                <p className="font-sans text-[#5a9070] text-xs leading-relaxed">{c.desc}</p>
+                <div className="mt-4 flex items-center gap-1 text-[#00b894] text-xs font-medium group-hover:gap-2 transition-all">
+                  Usar calculadora <ChevronRight size={12} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -529,7 +620,7 @@ export default function Landing() {
           <div className="text-center mb-14">
             <h2 className="font-display font-semibold text-[#f0f5f3] leading-tight mb-4"
               style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
-              Planes para cada etapa de tu vida financiera
+              Un plan para cada momento de tu vida financiera
             </h2>
             <p className="font-sans text-[#5a9070] text-lg">Empezá gratis. Escalá cuando lo necesités.</p>
           </div>
@@ -548,12 +639,12 @@ export default function Landing() {
           </h2>
 
           <p className="font-sans text-[#5a9070] text-lg leading-relaxed mb-10 max-w-lg mx-auto">
-            Miles de personas en Centroamérica y el Caribe ya saben exactamente a dónde va su dinero cada mes. Vos también podés.
+            Únete a los miles de personas en Centroamérica y el Caribe que ya saben exactamente a dónde va su dinero cada mes.
           </p>
 
           <a href={`${APP_URL}/register`}
             className="group inline-flex items-center gap-2 px-9 py-4 bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] font-bold rounded-lg transition-all shadow-caribe hover:-translate-y-0.5 text-base">
-            Crear cuenta gratis
+            Empezar 30 días gratis
             <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
           </a>
 
@@ -569,35 +660,67 @@ export default function Landing() {
       </section>
 
       {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer className="bg-[#060e0a] border-t border-[#00b894]/20 py-12 px-6">
+      <footer className="bg-[#060e0a] border-t border-[#00b894]/20 py-16 px-6">
         <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-8">
-            <a href="/" className="flex items-center gap-3">
-              <MFLogo size={26} />
-              <span className="font-sans font-semibold text-[#f0f5f3] text-sm" style={{ letterSpacing: '-0.01em' }}>
-                MoniFlow
-              </span>
-            </a>
-            <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-              {[
-                ['Funciones', '#funciones'],
-                ['Precios', '#precios'],
-                ['Iniciar sesión', `${APP_URL}/login`],
-                ['Registrarse', `${APP_URL}/register`],
-              ].map(([label, href]) => (
-                <a key={label} href={href}
-                  className="font-sans text-sm text-[#f0f5f3]/35 hover:text-[#f0f5f3]/65 transition-colors">
-                  {label}
-                </a>
-              ))}
-            </nav>
+
+          {/* Brand + columns */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+            {/* Brand */}
+            <div className="lg:col-span-2">
+              <a href="/" className="flex items-center gap-3 mb-4">
+                <MFLogo size={26} />
+                <span className="font-sans font-semibold text-[#f0f5f3] text-sm" style={{ letterSpacing: '-0.01em' }}>
+                  MoniFlow
+                </span>
+              </a>
+              <p className="font-sans text-xs text-[#5a9070] leading-relaxed max-w-xs">
+                La app de finanzas personales para Centroamérica y el Caribe. Gastos, tarjetas, deudas y metas en un solo lugar.
+              </p>
+            </div>
+
+            {/* Producto */}
+            <div>
+              <p className="font-sans text-xs font-semibold text-[#f0f5f3]/50 uppercase tracking-wider mb-4">Producto</p>
+              <ul className="space-y-2.5">
+                {[['Funciones', '#funciones'], ['Precios', '#precios'], ['Calculadoras', '#calculadoras'], ['Empezar gratis', `${APP_URL}/register`]].map(([label, href]) => (
+                  <li key={label}>
+                    <a href={href} className="font-sans text-sm text-[#f0f5f3]/35 hover:text-[#f0f5f3]/65 transition-colors">{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* País */}
+            <div>
+              <p className="font-sans text-xs font-semibold text-[#f0f5f3]/50 uppercase tracking-wider mb-4">País</p>
+              <ul className="space-y-2.5">
+                {['Guatemala', 'Honduras', 'El Salvador', 'Costa Rica', 'Nicaragua', 'Panamá'].map((c) => (
+                  <li key={c}>
+                    <span className="font-sans text-sm text-[#f0f5f3]/35">{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Empresa */}
+            <div>
+              <p className="font-sans text-xs font-semibold text-[#f0f5f3]/50 uppercase tracking-wider mb-4">Empresa</p>
+              <ul className="space-y-2.5">
+                {[['Iniciar sesión', `${APP_URL}/login`], ['Privacidad', '/privacidad'], ['Términos', '/terminos']].map(([label, href]) => (
+                  <li key={label}>
+                    <a href={href} className="font-sans text-sm text-[#f0f5f3]/35 hover:text-[#f0f5f3]/65 transition-colors">{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+
           <div className="border-t border-[#152a1e] pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p className="font-sans text-xs text-[#f0f5f3]/20">
-              © 2025 MoniFlow · Todos los derechos reservados
+              © 2026 MoniFlow · Todos los derechos reservados
             </p>
-            <p className="font-sans text-xs text-[#f0f5f3]/20">
-              Hecho en Centroamérica 🌿
+            <p className="font-sans text-xs text-[#5a9070]/50">
+              Hecho en Centroamérica, para Centroamérica y el Caribe.
             </p>
           </div>
         </div>

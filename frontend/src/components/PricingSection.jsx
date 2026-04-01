@@ -8,6 +8,7 @@ const PLANS = [
   {
     key:     'free',
     name:    'Gratis',
+    tagline: 'Para empezar a tomar control',
     icon:    null,
     price:   { monthly: 0, annual: 0 },
     badge:   null,
@@ -31,11 +32,12 @@ const PLANS = [
   {
     key:     'pro',
     name:    'Pro',
+    tagline: 'Para quien quiere el control completo',
     icon:    Crown,
     price:   { monthly: 2.99, annual: 29.90 },
     badge:   'Más popular',
     badgeCls:'bg-[#00b894]/15 text-[#00b894] border border-[#00b894]/30',
-    cta:     'Empezar prueba gratis',
+    cta:     'Empezar 30 días gratis',
     ctaCls:  'bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] shadow-caribe font-bold',
     card:    'border-[#00b894]/40 bg-[#152a1e]',
     ring:    'ring-1 ring-[#00b894]/25',
@@ -56,11 +58,12 @@ const PLANS = [
   {
     key:     'familia',
     name:    'Familia',
+    tagline: 'Para organizar las finanzas en familia',
     icon:    Users,
     price:   { monthly: 3.99, annual: 39.90 },
     badge:   'Mejor valor',
     badgeCls:'bg-[#55d8b4]/10 text-[#55d8b4] border border-[#55d8b4]/25',
-    cta:     'Empezar prueba gratis',
+    cta:     'Empezar 30 días gratis',
     ctaCls:  'bg-[#1e3d2a] hover:bg-[#2e5c3e] text-[#00b894] border border-[#00b894]/40 font-bold',
     card:    'border-[#2e5c3e] bg-[#152a1e]',
     ring:    '',
@@ -150,10 +153,13 @@ export default function PricingSection() {
 
               {/* Header */}
               <div className="mb-5">
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-1">
                   {Icon && <Icon size={15} className={plan.color} />}
                   <span className={`font-sans font-bold text-base ${plan.color}`}>{plan.name}</span>
                 </div>
+                {plan.tagline && (
+                  <p className="font-sans text-[#5a9070] text-xs mb-3">{plan.tagline}</p>
+                )}
 
                 {price === 0 ? (
                   <div>
@@ -218,7 +224,7 @@ export default function PricingSection() {
       )}
 
       <p className="text-center font-sans text-sm text-[#5a9070] mt-6">
-        Todos los planes pagos incluyen 30 días de prueba gratis · Cancela cuando quieras
+        Sin tarjeta de crédito · Sin fecha de vencimiento · Cancela cuando quieras
       </p>
     </div>
   );
