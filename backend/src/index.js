@@ -29,12 +29,15 @@ app.use(helmet({
 }));
 
 // ── CORS: solo permite el dominio del landing ────────────────────────────────
-const allowedOrigin = process.env.ALLOWED_ORIGIN;
+const allowedOrigins = (process.env.ALLOWED_ORIGIN || '')
+  .split(',')
+  .map(o => o.trim())
+  .filter(Boolean);
 
 app.use(cors({
   origin: (origin, cb) => {
     // Permite ausencia de origin en llamadas server-to-server o tests locales
-    if (!origin || origin === allowedOrigin) return cb(null, true);
+    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
     cb(new Error(`CORS bloqueado para origen: ${origin}`));
   },
   methods:          ['POST', 'OPTIONS'],
