@@ -8,7 +8,7 @@ export default defineConfig({
     proxy: {
       // En desarrollo, redirige /api al backend local
       '/api': {
-        target: 'http://localhost:4000',
+        target: 'http://localhost:4001',
         changeOrigin: true,
       },
     },

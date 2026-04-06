@@ -2,6 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background-color: #0b1712;
+    color: #f0f5f3;
+    -webkit-font-smoothing: antialiased;
+  }
 }
+
+/* ── MoniFlow Design Tokens ────────────────────────────────────── */
+:root {
+  --mf-bg:          #0b1712;
+  --mf-surface:     #152a1e;
+  --mf-border:      #1e3d2a;
+  --mf-text:        #f0f5f3;
+  --mf-text-muted:  #5a9070;
+  --mf-accent:      #00b894;
+  --mf-accent-hover:#009a7a;
+  --mf-accent-light:#55d8b4;
+  --mf-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Scroll reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 400ms var(--mf-ease), transform 400ms var(--mf-ease);
+}
+[data-reveal].visible { opacity: 1; transform: translateY(0); }
+[data-reveal-delay="1"] { transition-delay: 80ms; }
+[data-reveal-delay="2"] { transition-delay: 160ms; }
+[data-reveal-delay="3"] { transition-delay: 240ms; }
