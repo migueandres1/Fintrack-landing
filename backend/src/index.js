@@ -64,7 +64,7 @@ app.use(express.json({ limit: '10kb' })); // Limitar tamaño del body
 app.disable('x-powered-by');
 
 // ── Rutas ────────────────────────────────────────────────────────────────────
-app.use('/api', checkoutRouter);
+app.use('/', checkoutRouter);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ ok: true }));
