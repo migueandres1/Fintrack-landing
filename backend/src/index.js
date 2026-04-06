@@ -6,7 +6,7 @@ import rateLimit  from 'express-rate-limit';
 import checkoutRouter from './routes/checkout.js';
 
 const app  = express();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4001;
 
 // ── Seguridad: cabeceras HTTP ────────────────────────────────────────────────
 app.use(helmet({
