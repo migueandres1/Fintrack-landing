@@ -8,6 +8,8 @@ import checkoutRouter from './routes/checkout.js';
 const app  = express();
 const PORT = process.env.PORT || 4001;
 
+app.set('trust proxy', 1);
+
 // ── Seguridad: cabeceras HTTP ────────────────────────────────────────────────
 app.use(helmet({
   contentSecurityPolicy: {
