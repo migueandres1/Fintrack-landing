@@ -20,3 +20,12 @@ export async function startCheckout(priceKey) {
   const { data } = await http.post('/api/checkout', { price_key: priceKey });
   return data.url;
 }
+
+/**
+ * Envía un lead capturado desde una calculadora o modal de notificación.
+ * @param {{ name: string, email: string, tool: string, inputs?: Record<string,string> }} payload
+ */
+export async function submitLead(payload) {
+  const { data } = await http.post('/api/leads', payload);
+  return data;
+}

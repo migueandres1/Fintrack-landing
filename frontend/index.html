@@ -13,13 +13,27 @@
     <meta property="og:title"       content="MoniFlow — Tu dinero, bajo control." />
     <meta property="og:description" content="La app de finanzas personales para Centroamérica y el Caribe. Empieza gratis hoy." />
     <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://moniflow.com" />
     <meta property="og:image"       content="/og-image.png" />
     <meta property="og:locale"      content="es_GT" />
+    <meta property="og:locale:alternate" content="es_HN" />
+    <meta property="og:locale:alternate" content="es_SV" />
+    <meta property="og:locale:alternate" content="es_CR" />
+    <meta property="og:locale:alternate" content="es_PA" />
 
     <!-- Twitter -->
     <meta name="twitter:card"        content="summary_large_image" />
     <meta name="twitter:title"       content="MoniFlow — Tu dinero, bajo control." />
     <meta name="twitter:description" content="La app de finanzas personales para Centroamérica y el Caribe." />
+    <meta name="twitter:image"       content="/og-image.png" />
+
+    <!-- Mobile / PWA -->
+    <meta name="theme-color" content="#0b1712" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MoniFlow" />
+    <link rel="apple-touch-icon" href="/logos/moniflow-04-isotipo-light.svg" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,7 +43,106 @@
       rel="stylesheet"
     />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/logos/moniflow-08-favicon-32px.svg" />
+
+    <!-- Structured Data (SEO / AEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://moniflow.com/#organization",
+          "name": "MoniFlow",
+          "url": "https://moniflow.com",
+          "logo": "https://moniflow.com/logos/moniflow-01-logo-light.svg",
+          "description": "App de finanzas personales para Centroamérica, el Caribe y países dolarizados.",
+          "areaServed": ["GT","HN","SV","CR","NI","PA","DO","EC"],
+          "inLanguage": "es"
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://moniflow.com/#app",
+          "name": "MoniFlow",
+          "applicationCategory": "FinanceApplication",
+          "operatingSystem": "Web, iOS, Android",
+          "inLanguage": "es",
+          "url": "https://moniflow.com",
+          "description": "La app de finanzas personales para Centroamérica y el Caribe. Gastos, tarjetas, deudas, remesas, metas y flujo de caja en un solo lugar.",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Plan Gratuito",
+              "price": "0",
+              "priceCurrency": "USD",
+              "description": "Plan gratuito con funciones básicas de registro de gastos y presupuesto."
+            },
+            {
+              "@type": "Offer",
+              "name": "Plan Pro — 30 días gratis",
+              "description": "Acceso completo a todas las funciones Pro con 30 días de prueba gratuita.",
+              "eligibleCustomerType": "https://schema.org/NewCustomer"
+            }
+          ],
+          "publisher": { "@id": "https://moniflow.com/#organization" }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://moniflow.com/#website",
+          "url": "https://moniflow.com",
+          "name": "MoniFlow",
+          "description": "Finanzas personales para Centroamérica, el Caribe y países dolarizados.",
+          "inLanguage": "es",
+          "publisher": { "@id": "https://moniflow.com/#organization" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "¿Para qué países funciona MoniFlow?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MoniFlow funciona en toda Centroamérica: Guatemala, Honduras, El Salvador, Nicaragua, Costa Rica y Panamá. También en países dolarizados del Caribe y América Latina como República Dominicana y Ecuador."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿MoniFlow se conecta a mi banco?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. MoniFlow no se conecta a tu banca en línea ni almacena credenciales bancarias. Registrás tus transacciones manualmente o fotografiando recibos, garantizando máxima privacidad."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿Cuánto cuesta MoniFlow?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "MoniFlow tiene un plan gratuito con funciones básicas. El plan Pro incluye 30 días de prueba gratuita y requiere tarjeta de crédito. Si cancelás antes del día 30, no te cobramos nada."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿MoniFlow funciona para personas que reciben remesas?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Sí. MoniFlow trata las remesas como categoría nativa de ingreso con origen, frecuencia y distribución planificada. Ideal para familias en Honduras, El Salvador, Guatemala, República Dominicana y más."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "¿MoniFlow tiene app para celular?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "La versión web funciona perfectamente en cualquier celular. Las apps nativas para iOS y Android están en desarrollo y lanzarán muy pronto."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

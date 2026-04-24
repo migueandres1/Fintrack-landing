@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -r \"favicon\\\\|logo\\\\|/og-image\\\\|public/\" \"c:\\\\Users\\\\luis\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Fintrack-landing\\\\frontend\" --include=\"*.html\" --include=\"*.jsx\" --include=\"*.js\" --include=\"*.json\" ! -path \"*/node_modules/*\")",
+      "Bash(git -C \"c:\\\\Users\\\\luis\\\\OneDrive\\\\Documentos\\\\GitHub\\\\Fintrack-landing\" status --short)",
+      "Bash(grep -E \"^d|\\\\.js$|\\\\.json$\")",
+      "Bash(npm install *)"
+    ]
+  }
+}

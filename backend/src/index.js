@@ -4,6 +4,7 @@ import helmet     from 'helmet';
 import cors       from 'cors';
 import rateLimit  from 'express-rate-limit';
 import checkoutRouter from './routes/checkout.js';
+import leadsRouter    from './routes/leads.js';
 
 const app  = express();
 const PORT = process.env.PORT || 4001;
@@ -65,6 +66,7 @@ app.disable('x-powered-by');
 
 // ── Rutas ────────────────────────────────────────────────────────────────────
 app.use('/', checkoutRouter);
+app.use('/', leadsRouter);
 
 // ── Health check ─────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ ok: true }));
@@ -87,5 +89,8 @@ app.listen(PORT, () => {
   console.log(`Landing backend corriendo en puerto ${PORT}`);
   if (!process.env.STRIPE_SECRET_KEY) {
     console.warn('ADVERTENCIA: STRIPE_SECRET_KEY no configurada');
+  }
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
+    console.warn('ADVERTENCIA: SMTP no configurado — los leads solo se loguearán en consola');
   }
 });

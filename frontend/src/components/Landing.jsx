@@ -1,44 +1,33 @@
+import { useState } from 'react';
 import {
-  ArrowRight, CheckCircle2, Check, X, Minus,
+  ArrowRight, CheckCircle2, Check, X, Minus, Menu,
   BarChart2, Wallet, CreditCard, Target,
   TrendingUp, Receipt, Send, ChevronRight,
   Calculator, TrendingDown, PiggyBank, Percent,
   LayoutGrid, Smartphone, Bell,
 } from 'lucide-react';
 import PricingSection from './PricingSection.jsx';
+import CalcModal      from './CalcModal.jsx';
+import NotifyModal    from './NotifyModal.jsx';
 
 const APP_URL = import.meta.env.VITE_APP_URL ?? 'https://app.moniflow.com';
 
-// ── MoniFlow M Logo ──────────────────────────────────────────────────────────
-function MFLogo({ size = 36, color = '#f0f5f3' }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 44" fill="none" aria-label="MoniFlow">
-      <rect x="2"    y="2"  width="6" height="27" fill={color} />
-      <polygon points="2,2 8,2 20,19 14,19"    fill={color} />
-      <polygon points="20,19 26,19 38,2 32,2"  fill={color} />
-      <rect x="32"   y="2"  width="6" height="27" fill={color} />
-      <rect x="3"    y="32" width="5" height="4" rx="1" fill="#00b894" />
-      <rect x="17.5" y="32" width="5" height="4" rx="1" fill="#00b894" />
-      <rect x="32"   y="32" width="5" height="4" rx="1" fill="#00b894" />
-    </svg>
-  );
-}
 
 // ── Data ─────────────────────────────────────────────────────────────────────
 const PAINS = [
   {
     icon:  TrendingDown,
-    title: '¿A dónde se fue el sueldo?',
+    title: '¿A dónde se fue mi sueldo?',
     desc:  'El sueldo llega el lunes y el miércoles ya no sé exactamente qué pasó. Sé que gasté, pero no recuerdo en qué.',
   },
   {
     icon:  CreditCard,
-    title: 'Solo pago el mínimo de la tarjeta',
+    title: '¿Pago solo el mínimo de la tarjeta?',
     desc:  'Porque no sé exactamente cuánto debo en total ni cuánto me cuesta en intereses cada mes que dejo pasar.',
   },
   {
     icon:  LayoutGrid,
-    title: 'Tengo tres hojas de cálculo y igual no funciona',
+    title: '¿Trato de llevar mis cuentas ordenadas e igual no funciona?',
     desc:  'Empecé ordenado, pero se fue complicando. Al final lo abandoné y volví a adivinar.',
   },
 ];
@@ -46,7 +35,7 @@ const PAINS = [
 const FEATURES = [
   {
     icon:  BarChart2,
-    title: 'Sabe exactamente a dónde va tu dinero',
+    title: 'Comprende exactamente a dónde se va tu dinero.',
     desc:  'Registrá en efectivo o tarjeta en segundos. Categorías automáticas con IA. Ve cuánto llevás gastado vs. lo planeado.',
   },
   {
@@ -61,7 +50,7 @@ const FEATURES = [
   },
   {
     icon:  TrendingUp,
-    title: 'Sabe si llegarás a fin de mes antes de que llegue',
+    title: 'Conoce si llegarás a fin de mes antes de que llegue.',
     desc:  'Proyección día a día de tu saldo futuro. Ve los problemas con anticipación, no después.',
   },
   {
@@ -71,7 +60,7 @@ const FEATURES = [
   },
   {
     icon:  Receipt,
-    title: 'Fotografía tu recibo. Listo.',
+    title: 'Tomale fotos a tus recibos. Listo.',
     desc:  'La IA lee el ticket y registra el gasto por vos. Sin tipear. Sin excusas.',
   },
 ];
@@ -136,40 +125,72 @@ function CompCell({ val }) {
 
 const CALCULADORAS = [
   {
-    icon:  Calculator,
-    title: 'Calculadora de tarjeta de crédito',
-    desc:  'Ve cuánto te cuesta pagar solo el mínimo y cuándo terminarías de pagar.',
+    icon:     Calculator,
+    calcType: 'credit-card',
+    title:    'Calculadora de tarjeta de crédito',
+    desc:     'Ve cuánto te cuesta pagar solo el mínimo y cuándo terminarías de pagar.',
   },
   {
-    icon:  TrendingDown,
-    title: 'Simulador de deuda snowball / avalanche',
-    desc:  'Compará estrategias para salir de deudas más rápido y pagar menos intereses.',
+    icon:     TrendingDown,
+    calcType: 'snowball',
+    title:    'Simulador de deuda snowball / avalanche',
+    desc:     'Compará estrategias para salir de deudas más rápido y pagar menos intereses.',
   },
   {
-    icon:  PiggyBank,
-    title: 'Calculadora de meta de ahorro',
-    desc:  'Cuánto necesitás ahorrar por mes para llegar a tu meta en el tiempo que querés.',
+    icon:     PiggyBank,
+    calcType: 'savings',
+    title:    'Calculadora de meta de ahorro',
+    desc:     'Cuánto necesitás ahorrar por mes para llegar a tu meta en el tiempo que querés.',
   },
   {
-    icon:  Percent,
-    title: 'Tabla de amortización de préstamo',
-    desc:  'Desglose cuota por cuota: capital, intereses y saldo pendiente.',
+    icon:     Percent,
+    calcType: 'amortization',
+    title:    'Tabla de amortización de préstamo',
+    desc:     'Desglose cuota por cuota: capital, intereses y saldo pendiente.',
+  },
+];
+
+const FAQS = [
+  {
+    q: '¿Para qué países funciona MoniFlow?',
+    a: 'MoniFlow funciona en toda Centroamérica: Guatemala, Honduras, El Salvador, Nicaragua, Costa Rica y Panamá. También está diseñada para países dolarizados del Caribe y América Latina como República Dominicana y Ecuador. Si manejás dólares o tu moneda local, MoniFlow funciona para vos.',
+  },
+  {
+    q: '¿MoniFlow se conecta a mi banco o guarda mis contraseñas?',
+    a: 'No. MoniFlow no se conecta a tu banca en línea ni almacena credenciales bancarias. Registrás tus transacciones manualmente o fotografiando tus recibos. Máxima privacidad y control total sobre tus datos.',
+  },
+  {
+    q: '¿Cuánto cuesta MoniFlow?',
+    a: 'MoniFlow tiene un plan gratuito con funciones básicas. El plan Pro incluye 30 días de prueba gratuita (requiere tarjeta de crédito). Si cancelás antes de que termine el período de prueba, no te cobramos nada.',
+  },
+  {
+    q: '¿Puedo usar MoniFlow si recibo remesas?',
+    a: 'Sí, y es una de las funciones estrella de la app. MoniFlow trata las remesas como categoría nativa de ingreso: con origen, frecuencia y planificación integrada. Ideal para familias en Honduras, El Salvador, Guatemala, Rep. Dominicana y más.',
+  },
+  {
+    q: '¿MoniFlow tiene app para celular?',
+    a: 'La versión web ya está disponible y funciona perfectamente en tu celular. Las apps nativas para iOS y Android están en desarrollo y lanzarán muy pronto. Registrate hoy y te avisamos el día del lanzamiento.',
+  },
+  {
+    q: '¿Es seguro usar MoniFlow?',
+    a: 'Sí. MoniFlow no almacena contraseñas ni datos de acceso bancario. Solo registrás tus transacciones y metas financieras. Tus datos están protegidos y nunca los compartimos con terceros.',
   },
 ];
 
 // ── Component ────────────────────────────────────────────────────────────────
 export default function Landing() {
+  const [mobileOpen, setMobileOpen]   = useState(false);
+  const [activeCalc,  setActiveCalc]  = useState(null);   // 'credit-card' | 'snowball' | 'savings' | 'amortization'
+  const [showNotify,  setShowNotify]  = useState(false);
+
   return (
     <div className="font-sans overflow-x-hidden">
 
       {/* ── Navbar ────────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-50 bg-[#0b1712]/90 backdrop-blur-md border-b border-[#1e3d2a]/60">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <MFLogo size={30} />
-            <span className="font-sans font-semibold text-base text-[#f0f5f3]" style={{ letterSpacing: '-0.01em' }}>
-              MoniFlow
-            </span>
+          <a href="/" className="flex items-center">
+            <img src="/logos/moniflow-02-logo-dark.svg" style={{ height: '28px', width: 'auto' }} alt="MoniFlow" />
           </a>
 
           <nav className="hidden md:flex items-center gap-6">
@@ -183,15 +204,47 @@ export default function Landing() {
 
           <div className="flex items-center gap-2">
             <a href={`${APP_URL}/login`}
-              className="hidden sm:block px-4 py-2 text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors rounded-lg">
+              className="hidden md:block px-4 py-2 text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors rounded-lg">
               Iniciar sesión
             </a>
             <a href={`${APP_URL}/register`}
               className="px-4 py-2 text-sm font-semibold bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] rounded-lg transition-colors shadow-caribe">
               Empieza gratis
             </a>
+            <button
+              onClick={() => setMobileOpen(o => !o)}
+              className="md:hidden p-2 -mr-1 text-[#5a9070] hover:text-[#f0f5f3] transition-colors"
+              aria-label={mobileOpen ? 'Cerrar menú' : 'Abrir menú'}
+              aria-expanded={mobileOpen}>
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="md:hidden border-t border-[#1e3d2a]/60 bg-[#0b1712] px-6 py-5">
+            <nav className="flex flex-col">
+              {[['Funciones', '#funciones'], ['Calculadoras', '#calculadoras'], ['Precios', '#precios']].map(([label, href]) => (
+                <a key={label} href={href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm text-[#5a9070] hover:text-[#f0f5f3] transition-colors py-3 border-b border-[#1e3d2a]/50 last:border-0">
+                  {label}
+                </a>
+              ))}
+            </nav>
+            <div className="mt-4 pt-4 border-t border-[#1e3d2a]/50">
+              <a href={`${APP_URL}/login`}
+                className="block text-sm text-center text-[#5a9070] hover:text-[#f0f5f3] transition-colors py-2 mb-2">
+                Iniciar sesión
+              </a>
+              <a href={`${APP_URL}/register`}
+                className="block px-4 py-2.5 text-sm font-semibold bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] rounded-lg transition-colors text-center">
+                Empieza 30 días gratis
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       {/* ── Hero ──────────────────────────────────────────────────────────── */}
@@ -220,7 +273,7 @@ export default function Landing() {
             <div>
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#152a1e] border border-[#2e5c3e] text-[#00b894] text-xs font-medium mb-8">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#00b894] animate-pulse" />
-                Disponible en Guatemala, Honduras, El Salvador y más
+                Diseñado para Centroamérica, el Caribe y países dolarizados
               </span>
 
               <h1 className="font-display font-light text-[#f0f5f3] leading-[1.05] mb-6"
@@ -268,7 +321,7 @@ export default function Landing() {
                       <p className="text-[#00b894] text-[11px] mt-0.5">↑ +$ 120 vs. mes pasado</p>
                     </div>
                     <div className="w-9 h-9 rounded-xl bg-[#0b1712] flex items-center justify-center border border-[#1e3d2a]">
-                      <MFLogo size={18} />
+                      <img src="/logos/moniflow-05-isotipo-dark.svg" style={{ width: '18px', height: '18px' }} alt="MoniFlow" />
                     </div>
                   </div>
 
@@ -410,7 +463,7 @@ export default function Landing() {
                 La única app que entiende que las remesas son tu ingreso
               </h2>
               <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-6">
-                Para millones de familias en Honduras, El Salvador, Ecuador y República Dominicana, las remesas no son un ingreso "extra" — son la base del presupuesto mensual.
+                Para millones de familias en toda Centroamérica —Guatemala, Honduras, El Salvador, Nicaragua, Costa Rica, Panamá— y en países dolarizados del Caribe y América Latina como República Dominicana y Ecuador, las remesas no son un ingreso "extra": son la base del presupuesto mensual.
               </p>
               <p className="font-sans text-[#5a9070] text-base leading-relaxed mb-8">
                 MoniFlow las trata como la categoría prioritaria que son: con origen, frecuencia y planificación integrada.
@@ -616,17 +669,18 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {CALCULADORAS.map((c) => (
-              <div key={c.title}
-                className="bg-[#0b1712] border border-[#1e3d2a] rounded-2xl p-6 hover:border-[#00b894]/30 transition-all group cursor-pointer">
+              <button key={c.title}
+                onClick={() => setActiveCalc(c.calcType)}
+                className="text-left bg-[#0b1712] border border-[#1e3d2a] rounded-2xl p-6 hover:border-[#00b894]/30 hover:-translate-y-1 transition-all group cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#00b894]/40">
                 <div className="w-10 h-10 rounded-xl bg-[#152a1e] border border-[#1e3d2a] flex items-center justify-center mb-4 group-hover:border-[#00b894]/40 transition-colors">
                   <c.icon size={18} className="text-[#00b894]" />
                 </div>
                 <h3 className="font-sans font-bold text-[#f0f5f3] text-sm leading-snug mb-2">{c.title}</h3>
                 <p className="font-sans text-[#5a9070] text-xs leading-relaxed">{c.desc}</p>
                 <div className="mt-4 flex items-center gap-1 text-[#00b894] text-xs font-medium group-hover:gap-2 transition-all">
-                  Usar calculadora <ChevronRight size={12} />
+                  Abrir calculadora <ChevronRight size={12} />
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
@@ -646,6 +700,34 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* ── FAQ ── light ──────────────────────────────────────────────────── */}
+      <section id="faq" className="bg-[#f0f5f3] border-t border-[#d0e0da] py-24 px-6">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-[#00b894] text-xs font-medium uppercase tracking-widest mb-3">Preguntas frecuentes</p>
+            <h2 className="font-display font-semibold text-[#111816] leading-tight"
+              style={{ fontSize: 'clamp(28px, 3.5vw, 42px)', letterSpacing: '-0.02em' }}>
+              Todo lo que necesitás saber
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {FAQS.map((faq) => (
+              <details key={faq.q}
+                className="group bg-white border border-[#d0e0da] rounded-2xl overflow-hidden shadow-mf-sm">
+                <summary className="flex items-center justify-between px-6 py-5 cursor-pointer list-none">
+                  <span className="font-sans font-semibold text-[#111816] text-sm leading-snug pr-4">{faq.q}</span>
+                  <ChevronRight size={16} className="text-[#00b894] shrink-0" />
+                </summary>
+                <div className="px-6 pb-5 border-t border-[#f0f5f3]">
+                  <p className="font-sans text-[#6a8880] text-sm leading-relaxed pt-4">{faq.a}</p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Final CTA ── dark ─────────────────────────────────────────────── */}
       <section className="bg-[#0b1712] border-t border-[#1e3d2a] py-24 px-6">
         <div className="max-w-2xl mx-auto text-center">
@@ -653,21 +735,21 @@ export default function Landing() {
 
           <h2 className="font-display font-semibold text-[#f0f5f3] leading-[1.05] mb-6"
             style={{ fontSize: 'clamp(34px, 4.5vw, 54px)', letterSpacing: '-0.02em' }}>
-            Empezá hoy.<br />Es gratis.
+            Empezá hoy.<br />30 días gratis en Pro.
           </h2>
 
           <p className="font-sans text-[#5a9070] text-lg leading-relaxed mb-10 max-w-lg mx-auto">
             Únete a los miles de personas en Centroamérica y el Caribe que ya saben exactamente a dónde va su dinero cada mes.
           </p>
 
-          <a href={`${APP_URL}/register`}
+          <a href={`${APP_URL}/register?plan=pro`}
             className="group inline-flex items-center gap-2 px-9 py-4 bg-[#00b894] hover:bg-[#55d8b4] text-[#001e18] font-bold rounded-lg transition-all shadow-caribe hover:-translate-y-0.5 text-base">
             Empezar 30 días gratis
             <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
           </a>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-5 text-sm text-[#2e5c3e]">
-            {['Gratis para siempre', 'Sin tarjeta de crédito', 'Listo en minutos', 'Cancela cuando quieras'].map((t) => (
+            {['30 días completos en Pro', 'Sin cobro si cancelás antes', 'Listo en minutos', 'Cancelá cuando quieras'].map((t) => (
               <div key={t} className="flex items-center gap-1.5">
                 <CheckCircle2 size={13} className="text-[#00b894]" />
                 <span>{t}</span>
@@ -719,11 +801,12 @@ export default function Landing() {
               </div>
 
               {/* Notify CTA */}
-              <a href={`${APP_URL}/register`}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#00b894]/40 text-[#00b894] hover:bg-[#00b894]/10 text-sm font-medium transition-colors group">
+              <button
+                onClick={() => setShowNotify(true)}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-[#00b894]/40 text-[#00b894] hover:bg-[#00b894]/10 text-sm font-medium transition-colors">
                 <Bell size={14} />
                 Avísame cuando esté disponible
-              </a>
+              </button>
               <p className="font-sans text-[#2e5c3e] text-xs mt-3">
                 Crea tu cuenta hoy y te notificamos el día que lancemos.
               </p>
@@ -816,11 +899,8 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
             {/* Brand */}
             <div className="lg:col-span-2">
-              <a href="/" className="flex items-center gap-3 mb-4">
-                <MFLogo size={26} />
-                <span className="font-sans font-semibold text-[#f0f5f3] text-sm" style={{ letterSpacing: '-0.01em' }}>
-                  MoniFlow
-                </span>
+              <a href="/" className="flex items-center mb-4">
+                <img src="/logos/moniflow-02-logo-dark.svg" style={{ height: '26px', width: 'auto' }} alt="MoniFlow" />
               </a>
               <p className="font-sans text-xs text-[#5a9070] leading-relaxed max-w-xs">
                 La app de finanzas personales para Centroamérica y el Caribe. Gastos, tarjetas, deudas y metas en un solo lugar.
@@ -874,6 +954,14 @@ export default function Landing() {
           </div>
         </div>
       </footer>
+
+      {/* ── Modales ───────────────────────────────────────────────────────── */}
+      {activeCalc && (
+        <CalcModal type={activeCalc} onClose={() => setActiveCalc(null)} />
+      )}
+      {showNotify && (
+        <NotifyModal onClose={() => setShowNotify(false)} />
+      )}
 
     </div>
   );
